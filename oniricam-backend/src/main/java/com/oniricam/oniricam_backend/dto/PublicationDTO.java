@@ -1,8 +1,10 @@
 package com.oniricam.oniricam_backend.dto;
 import java.time.LocalDateTime;
+import jakarta.
 
 public class PublicationDTO {
 
+    @NotBlank(message = "O título é obrigatório")
     private String title;
     private String contentUrl;
     private LocalDateTime publishedAt;
