@@ -20,6 +20,6 @@ public class PublicationService {
 
     public ResponseEntity<PublicationDTO> add(PublicationDTO dto) {
         Publication saved = repository.save(mapper.toModel(dto));
-        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toDTO(saved));
+        return ResponseEntity.status(HttpStatus.OK).body(mapper.toDTO(saved));
     }
 }
