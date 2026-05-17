@@ -26,7 +26,7 @@ public class Publication {
     @Column(name = "content_url", nullable = false)
     private String contentUrl;
 
-    @Column(name = "published_at")
+    @Column(name = "published_at", insertable = false)
     private LocalDateTime publishedAt;
 
     @Column(name = "banner_url")

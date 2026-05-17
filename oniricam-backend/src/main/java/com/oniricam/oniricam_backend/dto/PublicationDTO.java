@@ -5,7 +5,6 @@ public class PublicationDTO {
 
     private String title;
     private String contentUrl;
-    private LocalDateTime publishedAt;
     private String bannerUrl;
 
     public String getTitle() {
@@ -22,14 +21,6 @@ public class PublicationDTO {
 
     public void setContentUrl(String contentUrl) {
         this.contentUrl = contentUrl;
-    }
-
-    public LocalDateTime getPublishedAt() {
-        return publishedAt;
-    }
-
-    public void setPublishedAt(LocalDateTime publishedAt) {
-        this.publishedAt = publishedAt;
     }
 
     public String getBannerUrl() {
