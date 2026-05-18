@@ -25,4 +25,9 @@ public class SubscriberService {
         List<SubscriberDTO> subscribers = mapper.toDTOList(repository.findAll());
         return ResponseEntity.status(HttpStatus.OK).body(subscribers);
     }
+
+    public ResponseEntity<SubscriberDTO> add(SubscriberDTO subscriber) {
+        repository.save(mapper.toModel(subscriber));
+        return ResponseEntity.status(HttpStatus.OK).body(subscriber);
+    }
 }
