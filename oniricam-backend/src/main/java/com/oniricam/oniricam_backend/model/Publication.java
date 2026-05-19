@@ -1,6 +1,8 @@
 package com.oniricam.oniricam_backend.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -26,6 +28,7 @@ public class Publication {
     @Column(name = "content_url", nullable = false)
     private String contentUrl;
 
+    @CreationTimestamp
     @Column(name = "published_at", insertable = false)
     private LocalDateTime publishedAt;
 

@@ -1,1 +1,2 @@
-**/application.properties
+oniricam-backend/src/main/resources/application.properties
+oniricam-backend/target/

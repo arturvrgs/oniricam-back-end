@@ -24,8 +24,7 @@ public class EmailService {
         this.subscriberService = subscriberService;
     }
 
-    public void sendEmail(String receiver, Email email) {
-        try {
+    public void sendEmail(String receiver, Email email) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
@@ -34,9 +33,6 @@ public class EmailService {
         helper.setText(email.getBody(), true);
 
         mailSender.send(message);
-        } catch (MessagingException e) {
-            return;
-        }
     }
 
     private Email createEmail(String name, PublicationDTO publicationDto) {
@@ -45,7 +41,7 @@ public class EmailService {
     }
 
     @Async
-    public void notifySubscribers(PublicationDTO dto) {
+    public void notifySubscribers(PublicationDTO dto) throws MessagingException {
         var response = subscriberService.findAll();
         if(response.getStatusCode().is2xxSuccessful() && response.hasBody() && response.getBody() != null) {
             for(SubscriberDTO subscriberDTO : response.getBody()) {
