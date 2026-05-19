@@ -1,6 +1,7 @@
 package com.oniricam.oniricam_backend.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -23,6 +24,7 @@ public class Subscriber {
     @Column(name = "lastname", nullable = false)
     private String lastname;
 
+    @CreationTimestamp
     @Column(name = "subscribed_at", insertable = false)
     private LocalDateTime subscribedAt;
 
@@ -49,8 +51,6 @@ public class Subscriber {
     public String getLastname() {
         return lastname;
     }
-
-
 
     public void setLastname(String lastname) {
         this.lastname = lastname;

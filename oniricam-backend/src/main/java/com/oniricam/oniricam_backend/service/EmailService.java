@@ -3,9 +3,11 @@ package com.oniricam.oniricam_backend.service;
 import com.oniricam.oniricam_backend.dto.PublicationDTO;
 import com.oniricam.oniricam_backend.dto.SubscriberDTO;
 import com.oniricam.oniricam_backend.model.Email;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -22,12 +24,24 @@ public class EmailService {
         this.subscriberService = subscriberService;
     }
 
-    public void sendEmail(String receiver, PublicationDTO dto) {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setTo(receiver);
-            message.setSubject("Nova publicação");
-            message.setText(dto.getTitle());
-            mailSender.send(message);
+    public void sendEmail(String receiver, Email email) {
+        try {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        helper.setTo(receiver);
+        helper.setSubject(email.getSubject());
+        helper.setText(email.getBody(), true);
+
+        mailSender.send(message);
+        } catch (MessagingException e) {
+            return;
+        }
+    }
+
+    private Email createEmail(String name, PublicationDTO publicationDto) {
+        String serializedBody = Email.serializeEmailBody(name, publicationDto.getBannerUrl(), publicationDto.getContentUrl());
+        return new Email(name, publicationDto.getTitle(), serializedBody);
     }
 
     @Async
@@ -35,7 +49,8 @@ public class EmailService {
         var response = subscriberService.findAll();
         if(response.getStatusCode().is2xxSuccessful() && response.hasBody() && response.getBody() != null) {
             for(SubscriberDTO subscriberDTO : response.getBody()) {
-                sendEmail(subscriberDTO.getEmail(), dto);
+                Email publicationEmail = createEmail(subscriberDTO.getFirstname(), dto);
+                sendEmail(subscriberDTO.getEmail(), publicationEmail);
             }
         }
     }
