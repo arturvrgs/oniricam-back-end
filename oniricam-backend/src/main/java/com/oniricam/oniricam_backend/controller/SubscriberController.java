@@ -17,12 +17,10 @@ public class SubscriberController {
         this.service = service;
     }
 
-    @PostMapping("/add")
     public ResponseEntity<SubscriberDTO> add(@RequestBody SubscriberDTO dto) {
         return service.add(dto);
     }
 
-    @GetMapping("/list")
     public ResponseEntity<List<SubscriberDTO>> list() {
         return service.findAll();
     }
